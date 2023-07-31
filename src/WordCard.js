@@ -20,18 +20,21 @@ export default function WordCard(props) {
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [timeLeft, setTimeLeft] = useState(60);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            if (timeLeft > 0) {
-                setTimeLeft(timeLeft - 1);
-            } else {
-                handleTimeOut();
-            }
-        }, 1000);
+        if (isPlaying) {
+            const timer = setInterval(() => {
+                if (timeLeft > 0) {
+                    setTimeLeft(timeLeft - 1);
+                } else {
+                    handleTimeOut();
+                }
+            }, 1000);
 
-        return () => clearInterval(timer);
-    }, [timeLeft]);
+            return () => clearInterval(timer);
+        }
+    }, [isPlaying, timeLeft]);
 
     const handleTimeOut = () => {
         console.log('Time is up! Reset the game.');
@@ -39,9 +42,20 @@ export default function WordCard(props) {
         setShowModal(true);
         setState(prepareStateFromWord(props.value));
         setTimeLeft(60);
+        setIsPlaying(false);
+    };
+
+    const handlePlay = () => {
+        setIsPlaying(true);
+        setShowModal(false); 
+        setState(prepareStateFromWord(props.value)); 
+        setTimeLeft(60); 
     };
 
     const activationHandler = (c) => {
+        if (!isPlaying) return; 
+
+        console.log(`${c} has been activated`)
         let guess = state.guess + c;
         setState({ ...state, guess });
 
@@ -50,6 +64,7 @@ export default function WordCard(props) {
                 setModalMessage('yeah!');
                 setShowModal(true);
                 setState({ ...state, completed: true });
+                setIsPlaying(false); 
             } else {
                 setModalMessage('reset, next attempt');
                 setShowModal(true);
@@ -65,14 +80,15 @@ export default function WordCard(props) {
     return (
         <div>
             <div className="card-container">
-            {state.chars.map((c, i) => (
-                <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt} />
-            ))}
-            {showModal && <Modal message={modalMessage} closeModal={toggleModal} />}
+                {state.chars.map((c, i) => (
+                    <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt} />
+                ))}
+                {!isPlaying && !state.completed && <button onClick={handlePlay}>Play</button>}
+                {showModal && <Modal message={modalMessage} closeModal={toggleModal} />}
             </div>
             <div className="timeleft-container">
-            <div className="timeleft">Time Left: {timeLeft} seconds</div>
-       </div>
+                {isPlaying && <div className="timeleft">Time Left: {timeLeft} seconds</div>}
+            </div>
         </div>
     );
 }
