@@ -37,8 +37,7 @@ export default function WordCard(props) {
     }, [isPlaying, timeLeft]);
 
     const handleTimeOut = () => {
-        console.log('Time is up! Reset the game.');
-        setModalMessage('reset, next attempt');
+        setModalMessage('Time is up! Reset the game.');
         setShowModal(true);
         setState(prepareStateFromWord(props.value));
         setTimeLeft(60);
@@ -90,13 +89,18 @@ export default function WordCard(props) {
                 {state.chars.map((c, i) => (
                     <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt} />
                 ))}
-                {!isPlaying && !state.completed && <button onClick={handlePlay}>Play</button>}
+                {/* {!isPlaying && !state.completed && <button onClick={handlePlay}>Play</button>}
                 {isPlaying && !state.completed && <button onClick={handleReset}>Reset</button>}
-                {showModal && <Modal message={modalMessage} closeModal={toggleModal} />}
+                {showModal && <Modal message={modalMessage} closeModal={toggleModal} />} */}
             </div>
             <div className="timeleft-container">
                 {isPlaying && <div className="timeleft">Time Left: {timeLeft} seconds</div>}
             </div>
+            <div className="button-container">
+                {!isPlaying && !state.completed && <button onClick={handlePlay}>Play</button>}
+                {isPlaying && !state.completed && <button onClick={handleReset}>Reset</button>}
+            </div>
+            {showModal && <Modal message={modalMessage} closeModal={toggleModal} />}
         </div>
     );
 }
