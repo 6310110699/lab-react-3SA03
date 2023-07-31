@@ -89,9 +89,6 @@ export default function WordCard(props) {
                 {state.chars.map((c, i) => (
                     <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt} />
                 ))}
-                {/* {!isPlaying && !state.completed && <button onClick={handlePlay}>Play</button>}
-                {isPlaying && !state.completed && <button onClick={handleReset}>Reset</button>}
-                {showModal && <Modal message={modalMessage} closeModal={toggleModal} />} */}
             </div>
             <div className="timeleft-container">
                 {isPlaying && <div className="timeleft">Time Left: {timeLeft} seconds</div>}
