@@ -1,12 +1,21 @@
+.card-container {
+    display: flex;
+    justify-content: center;
+}
+
 .card {
+
     display: inline-block;
     text-align: center;
     width: 3em;
+    height: 3em; 
+    line-height: 3em; 
     font-size: 2em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    margin: 1em;
+    margin: 3em 1em;
     user-select: none;
 }
+
 
 .activeCard {
     color: red;
@@ -45,4 +54,14 @@
 
 .modal.show {
     display: block;
+}
+
+.timeleft-container {
+    display: flex;
+    justify-content: center;
+}
+
+.timeleft {
+    font-size: 25px;
+    color: rgb(128, 44, 58);
 }

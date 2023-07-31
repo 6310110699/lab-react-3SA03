@@ -64,11 +64,15 @@ export default function WordCard(props) {
 
     return (
         <div>
-            <div className='timeleft'>Time Left: {timeLeft} seconds</div>
+            <div className="card-container">
             {state.chars.map((c, i) => (
                 <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt} />
             ))}
             {showModal && <Modal message={modalMessage} closeModal={toggleModal} />}
+            </div>
+            <div className="timeleft-container">
+            <div className="timeleft">Time Left: {timeLeft} seconds</div>
+       </div>
         </div>
     );
 }
