@@ -47,13 +47,20 @@ export default function WordCard(props) {
 
     const handlePlay = () => {
         setIsPlaying(true);
-        setShowModal(false); 
-        setState(prepareStateFromWord(props.value)); 
-        setTimeLeft(60); 
+        setShowModal(false);
+        setState(prepareStateFromWord(props.value));
+        setTimeLeft(60);
+    };
+
+    const handleReset = () => {
+        setIsPlaying(false);
+        setShowModal(false);
+        setState(prepareStateFromWord(props.value));
+        setTimeLeft(60);
     };
 
     const activationHandler = (c) => {
-        if (!isPlaying) return; 
+        if (!isPlaying) return;
 
         console.log(`${c} has been activated`)
         let guess = state.guess + c;
@@ -64,7 +71,7 @@ export default function WordCard(props) {
                 setModalMessage('yeah!');
                 setShowModal(true);
                 setState({ ...state, completed: true });
-                setIsPlaying(false); 
+                setIsPlaying(false);
             } else {
                 setModalMessage('reset, next attempt');
                 setShowModal(true);
@@ -84,6 +91,7 @@ export default function WordCard(props) {
                     <CharacterCard value={c} key={i} activationHandler={activationHandler} attempt={state.attempt} />
                 ))}
                 {!isPlaying && !state.completed && <button onClick={handlePlay}>Play</button>}
+                {isPlaying && !state.completed && <button onClick={handleReset}>Reset</button>}
                 {showModal && <Modal message={modalMessage} closeModal={toggleModal} />}
             </div>
             <div className="timeleft-container">
